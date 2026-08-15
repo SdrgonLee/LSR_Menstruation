@@ -1,0 +1,38 @@
+record_period:
+  name: Record period
+  description: Add or replace a menstrual period record with the same start date.
+  fields:
+    config_entry_id:
+      name: Profile
+      description: Menstruation profile that owns the record.
+      required: true
+      selector:
+        config_entry:
+          integration: menstruation
+    start_date:
+      name: Start date
+      required: true
+      selector:
+        date:
+    end_date:
+      name: End date
+      description: Optional. The configured default duration is used for display when omitted.
+      required: false
+      selector:
+        date:
+
+delete_period:
+  name: Delete period
+  description: Delete a menstrual period record by its start date.
+  fields:
+    config_entry_id:
+      name: Profile
+      required: true
+      selector:
+        config_entry:
+          integration: menstruation
+    start_date:
+      name: Start date
+      required: true
+      selector:
+        date:

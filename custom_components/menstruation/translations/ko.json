@@ -1,0 +1,48 @@
+{
+  "title": "생리 주기",
+  "config": {
+    "step": {
+      "user": {
+        "title": "생리 주기 프로필 만들기",
+        "description": "모든 기록은 Home Assistant 내부에 로컬로 저장됩니다. 예측값은 달력 기반 추정치이며 피임이나 의료적 판단에 사용할 수 없습니다.",
+        "data": {
+          "profile_name": "프로필 이름",
+          "cycle_length": "기본 주기(일)",
+          "period_length": "기본 생리 기간(일)",
+          "luteal_phase": "황체기 길이(일)"
+        }
+      }
+    }
+  },
+  "options": {
+    "step": {
+      "init": {
+        "title": "생리 주기 프로필 설정",
+        "data": {
+          "profile_name": "프로필 이름",
+          "cycle_length": "기본 주기(일)",
+          "period_length": "기본 생리 기간(일)",
+          "luteal_phase": "황체기 길이(일)"
+        }
+      }
+    }
+  },
+  "entity": {
+    "sensor": {
+      "next_period": { "name": "다음 생리 예정일" },
+      "ovulation": { "name": "배란 예정일" },
+      "fertile_start": { "name": "가임기 시작일" },
+      "fertile_end": { "name": "가임기 종료일" },
+      "average_cycle_length": { "name": "평균 주기" }
+    },
+    "binary_sensor": {
+      "period": { "name": "생리 중" },
+      "fertile": { "name": "예상 가임기" }
+    },
+    "calendar": {
+      "recorded_periods": { "name": "생리 기록" },
+      "predicted_periods": { "name": "생리 예측" },
+      "fertility": { "name": "가임기 예측" }
+    }
+  }
+}

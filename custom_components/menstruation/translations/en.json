@@ -1,0 +1,48 @@
+{
+  "title": "Menstruation",
+  "config": {
+    "step": {
+      "user": {
+        "title": "Create a cycle profile",
+        "description": "All records remain in your Home Assistant local storage. Predictions are calendar estimates only and must not be used as contraception or medical advice.",
+        "data": {
+          "profile_name": "Profile name",
+          "cycle_length": "Default cycle length (days)",
+          "period_length": "Default period length (days)",
+          "luteal_phase": "Luteal phase length (days)"
+        }
+      }
+    }
+  },
+  "options": {
+    "step": {
+      "init": {
+        "title": "Cycle profile settings",
+        "data": {
+          "profile_name": "Profile name",
+          "cycle_length": "Default cycle length (days)",
+          "period_length": "Default period length (days)",
+          "luteal_phase": "Luteal phase length (days)"
+        }
+      }
+    }
+  },
+  "entity": {
+    "sensor": {
+      "next_period": { "name": "Next period" },
+      "ovulation": { "name": "Estimated ovulation" },
+      "fertile_start": { "name": "Fertile window start" },
+      "fertile_end": { "name": "Fertile window end" },
+      "average_cycle_length": { "name": "Average cycle length" }
+    },
+    "binary_sensor": {
+      "period": { "name": "Period" },
+      "fertile": { "name": "Estimated fertile window" }
+    },
+    "calendar": {
+      "recorded_periods": { "name": "Recorded periods" },
+      "predicted_periods": { "name": "Predicted periods" },
+      "fertility": { "name": "Fertility estimates" }
+    }
+  }
+}
