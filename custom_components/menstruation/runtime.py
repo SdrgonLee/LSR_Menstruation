@@ -2,12 +2,14 @@
 
 from __future__ import annotations
 
-from datetime import date
+from datetime import date, timedelta
 
 from homeassistant.config_entries import ConfigEntry
 from homeassistant.core import HomeAssistant
+from homeassistant.exceptions import ServiceValidationError
 from homeassistant.helpers.dispatcher import async_dispatcher_send
 from homeassistant.helpers.storage import Store
+from homeassistant.util import dt as dt_util
 
 from .const import (
     CONF_CYCLE_LENGTH,
@@ -19,7 +21,7 @@ from .const import (
     SIGNAL_UPDATE,
     STORAGE_VERSION,
 )
-from .model import Forecast, PeriodRecord, forecast
+from .model import Forecast, PeriodRecord, forecast, validate_period_record
 
 
 class MenstruationRuntime:
@@ -29,6 +31,9 @@ class MenstruationRuntime:
         self.hass = hass
         self.entry = entry
         self.records: list[PeriodRecord] = []
+        today = dt_util.now().date()
+        self.record_start = today
+        self.record_end = today + timedelta(days=self.period_length - 1)
         self._store: Store[dict] = Store(
             hass, STORAGE_VERSION, f"menstruation.{entry.entry_id}"
         )
@@ -66,10 +71,36 @@ class MenstruationRuntime:
         )
 
     async def async_record(self, start: date, end: date | None) -> None:
+        try:
+            validate_period_record(start, end, dt_util.now().date())
+        except ValueError as err:
+            raise ServiceValidationError(str(err)) from err
         self.records = [record for record in self.records if record.start != start]
         self.records.append(PeriodRecord(start, end))
         self.records.sort(key=lambda item: item.start)
         await self._save_and_notify()
+
+    def set_record_start(self, value: date) -> None:
+        """Update the record form start and keep its current duration."""
+        if value > dt_util.now().date():
+            raise ServiceValidationError("Start date cannot be in the future")
+        duration = (self.record_end - self.record_start).days
+        if not 0 <= duration < 15:
+            duration = self.period_length - 1
+        self.record_start = value
+        self.record_end = value + timedelta(days=duration)
+        async_dispatcher_send(self.hass, self.signal)
+
+    def set_record_end(self, value: date) -> None:
+        """Update the record form end date."""
+        try:
+            validate_period_record(
+                self.record_start, value, dt_util.now().date()
+            )
+        except ValueError as err:
+            raise ServiceValidationError(str(err)) from err
+        self.record_end = value
+        async_dispatcher_send(self.hass, self.signal)
 
     async def async_delete(self, start: date) -> bool:
         new_records = [record for record in self.records if record.start != start]

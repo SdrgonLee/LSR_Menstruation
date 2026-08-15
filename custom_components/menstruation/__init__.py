@@ -13,7 +13,6 @@ from homeassistant.exceptions import ServiceValidationError
 from homeassistant.helpers import config_validation as cv
 from homeassistant.helpers.dispatcher import async_dispatcher_send
 from homeassistant.helpers.event import async_track_time_change
-from homeassistant.util import dt as dt_util
 
 from .const import (
     ATTR_CONFIG_ENTRY_ID,
@@ -44,12 +43,6 @@ async def async_setup(hass: HomeAssistant, config: dict) -> bool:
         runtime = get_runtime(call)
         start: date = call.data[ATTR_START_DATE]
         end: date | None = call.data.get(ATTR_END_DATE)
-        if start > dt_util.now().date():
-            raise ServiceValidationError("Start date cannot be in the future")
-        if end is not None and end < start:
-            raise ServiceValidationError("End date cannot be before start date")
-        if end is not None and (end - start).days >= 15:
-            raise ServiceValidationError("A recorded period cannot exceed 15 days")
         await runtime.async_record(start, end)
 
     async def async_delete_period(call: ServiceCall) -> None:

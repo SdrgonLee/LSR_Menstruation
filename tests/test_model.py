@@ -19,6 +19,7 @@ forecast = MODEL.forecast
 is_period_day = MODEL.is_period_day
 iter_fertile_windows = MODEL.iter_fertile_windows
 iter_predicted_periods = MODEL.iter_predicted_periods
+validate_period_record = MODEL.validate_period_record
 
 
 class CycleCalculationTests(unittest.TestCase):
@@ -84,6 +85,16 @@ class CycleCalculationTests(unittest.TestCase):
         result = forecast([], 28, 5, 14, date(2026, 8, 15))
         self.assertIsNone(result.next_period)
         self.assertEqual(list(iter_predicted_periods([], 28, 5)), [])
+
+    def test_period_record_validation(self) -> None:
+        today = date(2026, 8, 15)
+        validate_period_record(date(2026, 8, 11), date(2026, 8, 15), today)
+        with self.assertRaisesRegex(ValueError, "future"):
+            validate_period_record(date(2026, 8, 16), None, today)
+        with self.assertRaisesRegex(ValueError, "before"):
+            validate_period_record(date(2026, 8, 11), date(2026, 8, 10), today)
+        with self.assertRaisesRegex(ValueError, "15 days"):
+            validate_period_record(date(2026, 8, 1), date(2026, 8, 16), today)
 
 
 if __name__ == "__main__":

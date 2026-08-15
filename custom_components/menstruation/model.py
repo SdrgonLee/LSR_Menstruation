@@ -41,6 +41,16 @@ class Forecast:
     fertile_end: date | None
 
 
+def validate_period_record(start: date, end: date | None, today: date) -> None:
+    """Validate one recorded period range."""
+    if start > today:
+        raise ValueError("Start date cannot be in the future")
+    if end is not None and end < start:
+        raise ValueError("End date cannot be before start date")
+    if end is not None and (end - start).days >= 15:
+        raise ValueError("A recorded period cannot exceed 15 days")
+
+
 def effective_cycle_length(records: list[PeriodRecord], fallback: int) -> int:
     """Use the last six plausible recorded intervals."""
     starts = sorted({record.start for record in records})

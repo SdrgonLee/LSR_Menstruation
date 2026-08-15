@@ -43,6 +43,13 @@
       "recorded_periods": { "name": "Recorded periods" },
       "predicted_periods": { "name": "Predicted periods" },
       "fertility": { "name": "Fertility estimates" }
+    },
+    "date": {
+      "record_start": { "name": "Record start date" },
+      "record_end": { "name": "Record end date" }
+    },
+    "button": {
+      "record_period": { "name": "Record period" }
     }
   }
 }

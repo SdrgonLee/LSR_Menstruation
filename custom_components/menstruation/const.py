@@ -1,7 +1,7 @@
 """Constants for Menstruation."""
 
 DOMAIN = "menstruation"
-PLATFORMS = ["sensor", "binary_sensor", "calendar"]
+PLATFORMS = ["sensor", "binary_sensor", "calendar", "date", "button"]
 
 CONF_PROFILE_NAME = "profile_name"
 CONF_CYCLE_LENGTH = "cycle_length"

@@ -43,6 +43,13 @@
       "recorded_periods": { "name": "생리 기록" },
       "predicted_periods": { "name": "생리 예측" },
       "fertility": { "name": "가임기 예측" }
+    },
+    "date": {
+      "record_start": { "name": "기록 시작일" },
+      "record_end": { "name": "기록 종료일" }
+    },
+    "button": {
+      "record_period": { "name": "생리 기록" }
     }
   }
 }
