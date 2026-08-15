@@ -10,7 +10,7 @@ A local, profile-based menstrual cycle tracker and calendar for Home Assistant.
 - Estimates the next period from up to six recent plausible cycle intervals
 - Estimates ovulation and the fertile window
 - Creates one Home Assistant device per profile
-- Provides date sensors, binary sensors, current-period controls, editable historical record dates, and three read-only standard calendar entities
+- Provides date sensors, binary sensors, current-period controls, editable historical record dates, and four read-only standard calendar entities
 - Localizes calendar event titles in Korean or English using the Home Assistant system language
 - Shows ovulation as its own calendar event without an overlapping fertile-window event on that day
 - Includes English and Korean UI translations
@@ -56,7 +56,7 @@ data:
 
 ## Default calendar card
 
-The three calendars appear in Home Assistant's sidebar Calendar automatically. They also work with the built-in dashboard calendar card and third-party cards that consume standard `calendar.*` entities.
+The four calendars appear in Home Assistant's sidebar Calendar automatically. Fertile windows and ovulation use separate calendar entities so ovulation can have a darker default color. They also work with the built-in dashboard calendar card and third-party cards that consume standard `calendar.*` entities.
 
 ```yaml
 type: calendar
@@ -66,6 +66,7 @@ entities:
   - calendar.my_cycle_recorded_periods
   - calendar.my_cycle_predicted_periods
   - calendar.my_cycle_fertility_estimates
+  - calendar.my_cycle_ovulation_estimates
 ```
 
 Actual entity IDs depend on the profile name and can be copied from the profile's device page.

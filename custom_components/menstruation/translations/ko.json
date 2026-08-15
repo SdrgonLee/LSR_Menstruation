@@ -42,7 +42,8 @@
     "calendar": {
       "recorded_periods": { "name": "생리 기록" },
       "predicted_periods": { "name": "생리 예측" },
-      "fertility": { "name": "가임기 예측" }
+      "fertility": { "name": "가임기 예측" },
+      "ovulation": { "name": "배란일 예측" }
     },
     "date": {
       "record_start": { "name": "과거 생리 시작일" },

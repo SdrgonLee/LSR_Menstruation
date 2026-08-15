@@ -65,6 +65,7 @@ async def async_setup_entry(
             RecordedPeriodCalendar(entry.runtime_data),
             PredictedPeriodCalendar(entry.runtime_data),
             FertilityCalendar(entry.runtime_data),
+            OvulationCalendar(entry.runtime_data),
         ]
     )
 
@@ -163,11 +164,11 @@ class PredictedPeriodCalendar(MenstruationCalendar):
 
 
 class FertilityCalendar(MenstruationCalendar):
-    """Calendar containing estimated fertile windows and ovulation days."""
+    """Calendar containing estimated fertile windows."""
 
     _attr_translation_key = "fertility"
     _attr_icon = "mdi:sprout"
-    _attr_initial_color = "#43A047"
+    _attr_initial_color = "#66BB6A"
 
     def __init__(self, runtime: MenstruationRuntime) -> None:
         super().__init__(runtime, "fertility")
@@ -175,7 +176,6 @@ class FertilityCalendar(MenstruationCalendar):
     def _events(self) -> Iterable[CalendarEvent]:
         cycle = effective_cycle_length(self.runtime.records, self.runtime.cycle_length)
         fertile_summary, fertile_description = self._event_text("fertile_window")
-        ovulation_summary, ovulation_description = self._event_text("ovulation")
         for start, inclusive_end, ovulation in iter_fertile_windows(
             self.runtime.records, cycle, self.runtime.luteal_phase
         ):
@@ -188,9 +188,27 @@ class FertilityCalendar(MenstruationCalendar):
                     summary=fertile_summary,
                     description=fertile_description,
                 )
+
+
+class OvulationCalendar(MenstruationCalendar):
+    """Calendar containing estimated ovulation days."""
+
+    _attr_translation_key = "ovulation"
+    _attr_icon = "mdi:circle-double"
+    _attr_initial_color = "#2E7D32"
+
+    def __init__(self, runtime: MenstruationRuntime) -> None:
+        super().__init__(runtime, "ovulation_calendar")
+
+    def _events(self) -> Iterable[CalendarEvent]:
+        cycle = effective_cycle_length(self.runtime.records, self.runtime.cycle_length)
+        summary, description = self._event_text("ovulation")
+        for _, _, ovulation in iter_fertile_windows(
+            self.runtime.records, cycle, self.runtime.luteal_phase
+        ):
             yield CalendarEvent(
                 start=ovulation,
                 end=ovulation + timedelta(days=1),
-                summary=ovulation_summary,
-                description=ovulation_description,
+                summary=summary,
+                description=description,
             )

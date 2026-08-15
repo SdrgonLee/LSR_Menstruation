@@ -42,7 +42,8 @@
     "calendar": {
       "recorded_periods": { "name": "Recorded periods" },
       "predicted_periods": { "name": "Predicted periods" },
-      "fertility": { "name": "Fertility estimates" }
+      "fertility": { "name": "Fertility estimates" },
+      "ovulation": { "name": "Ovulation estimates" }
     },
     "date": {
       "record_start": { "name": "Past period start date" },
