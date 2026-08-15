@@ -11,6 +11,8 @@ A local, profile-based menstrual cycle tracker and calendar for Home Assistant.
 - Estimates ovulation and the fertile window
 - Creates one Home Assistant device per profile
 - Provides date sensors, binary sensors, current-period controls, editable historical record dates, and three read-only standard calendar entities
+- Localizes calendar event titles in Korean or English using the Home Assistant system language
+- Shows ovulation as its own calendar event without an overlapping fertile-window event on that day
 - Includes English and Korean UI translations
 
 ## Install

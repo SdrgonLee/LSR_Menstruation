@@ -130,3 +130,16 @@ def iter_fertile_windows(
     for period_start, _ in iter_predicted_periods(records, cycle_length, 1, limit):
         ovulation = period_start - timedelta(days=luteal_phase)
         yield ovulation - timedelta(days=5), ovulation + timedelta(days=1), ovulation
+
+
+def iter_fertile_segments(
+    start: date, inclusive_end: date, ovulation: date
+) -> Iterator[tuple[date, date]]:
+    """Yield fertile-window ranges excluding the ovulation day."""
+    before_end = ovulation - timedelta(days=1)
+    if start <= before_end:
+        yield start, min(before_end, inclusive_end)
+
+    after_start = ovulation + timedelta(days=1)
+    if after_start <= inclusive_end:
+        yield max(after_start, start), inclusive_end

@@ -18,6 +18,7 @@ effective_cycle_length = MODEL.effective_cycle_length
 forecast = MODEL.forecast
 is_period_day = MODEL.is_period_day
 iter_fertile_windows = MODEL.iter_fertile_windows
+iter_fertile_segments = MODEL.iter_fertile_segments
 iter_predicted_periods = MODEL.iter_predicted_periods
 validate_period_record = MODEL.validate_period_record
 
@@ -92,6 +93,17 @@ class CycleCalculationTests(unittest.TestCase):
         self.assertEqual(
             next(iter_fertile_windows(records, 28, 14)),
             (date(2026, 8, 10), date(2026, 8, 16), date(2026, 8, 15)),
+        )
+        self.assertEqual(
+            list(
+                iter_fertile_segments(
+                    date(2026, 8, 10), date(2026, 8, 16), date(2026, 8, 15)
+                )
+            ),
+            [
+                (date(2026, 8, 10), date(2026, 8, 14)),
+                (date(2026, 8, 16), date(2026, 8, 16)),
+            ],
         )
 
     def test_no_records_has_no_dates(self) -> None:
