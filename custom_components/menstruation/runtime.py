@@ -63,6 +63,12 @@ class MenstruationRuntime:
             today,
         )
 
+    @property
+    def ongoing_record(self) -> PeriodRecord | None:
+        """Return the active period record, if one exists."""
+        ongoing = [record for record in self.records if record.ongoing]
+        return max(ongoing, key=lambda item: item.start) if ongoing else None
+
     async def async_load(self) -> None:
         data = await self._store.async_load() or {}
         self.records = sorted(
@@ -77,6 +83,27 @@ class MenstruationRuntime:
             raise ServiceValidationError(str(err)) from err
         self.records = [record for record in self.records if record.start != start]
         self.records.append(PeriodRecord(start, end))
+        self.records.sort(key=lambda item: item.start)
+        await self._save_and_notify()
+
+    async def async_start_period(self) -> None:
+        """Start an ongoing period today."""
+        if self.ongoing_record is not None:
+            raise ServiceValidationError("A period is already in progress")
+        today = dt_util.now().date()
+        self.records = [record for record in self.records if record.start != today]
+        self.records.append(PeriodRecord(today, ongoing=True))
+        self.records.sort(key=lambda item: item.start)
+        await self._save_and_notify()
+
+    async def async_end_period(self) -> None:
+        """End the ongoing period today."""
+        ongoing = self.ongoing_record
+        if ongoing is None:
+            raise ServiceValidationError("No period is currently in progress")
+        today = dt_util.now().date()
+        self.records = [record for record in self.records if record is not ongoing]
+        self.records.append(PeriodRecord(ongoing.start, today))
         self.records.sort(key=lambda item: item.start)
         await self._save_and_notify()
 

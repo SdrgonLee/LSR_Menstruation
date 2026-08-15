@@ -76,9 +76,12 @@ class RecordedPeriodCalendar(MenstruationCalendar):
 
     def _events(self) -> Iterable[CalendarEvent]:
         for record in self.runtime.records:
-            inclusive_end = record.end or record.start + timedelta(
-                days=self.runtime.period_length - 1
-            )
+            if record.ongoing:
+                inclusive_end = max(dt_util.now().date(), record.start)
+            else:
+                inclusive_end = record.end or record.start + timedelta(
+                    days=self.runtime.period_length - 1
+                )
             yield CalendarEvent(
                 start=record.start,
                 end=inclusive_end + timedelta(days=1),

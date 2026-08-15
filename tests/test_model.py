@@ -70,6 +70,19 @@ class CycleCalculationTests(unittest.TestCase):
             )
         )
 
+    def test_ongoing_period_persists_and_remains_active(self) -> None:
+        record = PeriodRecord(date(2026, 8, 1), ongoing=True)
+        restored = PeriodRecord.from_dict(record.to_dict())
+        self.assertEqual(restored, record)
+        self.assertTrue(is_period_day(date(2026, 8, 15), [restored], 5))
+        self.assertFalse(is_period_day(date(2026, 7, 31), [restored], 5))
+
+    def test_old_record_storage_defaults_to_not_ongoing(self) -> None:
+        restored = PeriodRecord.from_dict(
+            {"start": "2026-08-01", "end": None}
+        )
+        self.assertFalse(restored.ongoing)
+
     def test_calendar_generators(self) -> None:
         records = [PeriodRecord(date(2026, 8, 1))]
         self.assertEqual(

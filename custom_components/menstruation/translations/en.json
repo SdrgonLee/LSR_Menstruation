@@ -45,11 +45,13 @@
       "fertility": { "name": "Fertility estimates" }
     },
     "date": {
-      "record_start": { "name": "Record start date" },
-      "record_end": { "name": "Record end date" }
+      "record_start": { "name": "Period start date" },
+      "record_end": { "name": "Period end date" }
     },
     "button": {
-      "record_period": { "name": "Record period" }
+      "start_period": { "name": "Start period" },
+      "end_period": { "name": "End period" },
+      "record_period": { "name": "Save period record" }
     }
   }
 }

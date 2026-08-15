@@ -10,7 +10,7 @@ A local, profile-based menstrual cycle tracker and calendar for Home Assistant.
 - Estimates the next period from up to six recent plausible cycle intervals
 - Estimates ovulation and the fertile window
 - Creates one Home Assistant device per profile
-- Provides date sensors, binary sensors, editable record dates, a record button, and three read-only standard calendar entities
+- Provides date sensors, binary sensors, current-period controls, editable historical record dates, and three read-only standard calendar entities
 - Includes English and Korean UI translations
 
 ## Install
@@ -25,11 +25,20 @@ Copy `custom_components/menstruation` into the same path under your Home Assista
 
 ## Record a period
 
-Open **Settings → Devices & services → Menstruation → your profile device**. Under the device configuration:
+Open **Settings → Devices & services → Menstruation → your profile device**.
 
-1. Set **Record start date**.
-2. Adjust **Record end date** if needed. It follows the start date using the configured default period length.
-3. Press **Record period**.
+For a period happening now:
+
+1. Press **Start period** on the first day.
+2. Press **End period** when it finishes.
+
+The in-progress state is stored locally and survives Home Assistant restarts. Only the appropriate button is available while a period is or is not in progress.
+
+To add or correct a past record under the device configuration:
+
+1. Set **Period start date**.
+2. Adjust **Period end date** if needed. It follows the start date using the configured default period length.
+3. Press **Save period record**.
 
 You can also use **Developer tools → Actions → Menstruation: Record period**, or call:
 

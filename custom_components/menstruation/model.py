@@ -14,11 +14,13 @@ class PeriodRecord:
 
     start: date
     end: date | None = None
+    ongoing: bool = False
 
-    def to_dict(self) -> dict[str, str | None]:
+    def to_dict(self) -> dict[str, str | bool | None]:
         return {
             "start": self.start.isoformat(),
             "end": self.end.isoformat() if self.end else None,
+            "ongoing": self.ongoing,
         }
 
     @classmethod
@@ -26,6 +28,7 @@ class PeriodRecord:
         return cls(
             date.fromisoformat(value["start"]),
             date.fromisoformat(value["end"]) if value.get("end") else None,
+            bool(value.get("ongoing", False)),
         )
 
 
@@ -100,6 +103,8 @@ def forecast(
 def is_period_day(today: date, records: list[PeriodRecord], period_length: int) -> bool:
     """Return whether today is in an explicitly recorded period."""
     for record in records:
+        if record.ongoing and record.start <= today:
+            return True
         end = record.end or record.start + timedelta(days=period_length - 1)
         if record.start <= today <= end:
             return True
