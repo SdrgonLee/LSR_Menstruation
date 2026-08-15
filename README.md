@@ -61,3 +61,7 @@ Actual entity IDs depend on the profile name and can be copied from the profile'
 - Fertile window: five days before through one day after estimated ovulation
 
 All records are stored under Home Assistant's `.storage` directory and are not sent externally.
+
+## License
+
+MIT License. See [LICENSE](LICENSE).
