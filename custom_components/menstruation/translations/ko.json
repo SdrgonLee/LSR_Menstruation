@@ -45,13 +45,13 @@
       "fertility": { "name": "가임기 예측" }
     },
     "date": {
-      "record_start": { "name": "생리 시작일" },
-      "record_end": { "name": "생리 종료일" }
+      "record_start": { "name": "과거 생리 시작일" },
+      "record_end": { "name": "과거 생리 종료일" }
     },
     "button": {
       "start_period": { "name": "생리 시작" },
       "end_period": { "name": "생리 종료" },
-      "record_period": { "name": "생리 기록 저장" }
+      "record_period": { "name": "선택한 생리 기간 저장" }
     }
   }
 }

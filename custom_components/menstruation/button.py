@@ -30,7 +30,6 @@ class StartPeriodButton(MenstruationEntity, ButtonEntity):
 
     _attr_translation_key = "start_period"
     _attr_icon = "mdi:play"
-    _attr_entity_category = EntityCategory.CONFIG
 
     def __init__(self, runtime: MenstruationRuntime) -> None:
         super().__init__(runtime, "start_period")
@@ -48,7 +47,6 @@ class EndPeriodButton(MenstruationEntity, ButtonEntity):
 
     _attr_translation_key = "end_period"
     _attr_icon = "mdi:stop"
-    _attr_entity_category = EntityCategory.CONFIG
 
     def __init__(self, runtime: MenstruationRuntime) -> None:
         super().__init__(runtime, "end_period")

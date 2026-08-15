@@ -34,11 +34,11 @@ For a period happening now:
 
 The in-progress state is stored locally and survives Home Assistant restarts. Only the appropriate button is available while a period is or is not in progress.
 
-To add or correct a past record under the device configuration:
+The current-period buttons appear as device controls. To add or correct a past record, use the historical inputs in the device configuration card:
 
-1. Set **Period start date**.
-2. Adjust **Period end date** if needed. It follows the start date using the configured default period length.
-3. Press **Save period record**.
+1. Set **Past period start date**.
+2. Adjust **Past period end date** if needed. It follows the start date using the configured default period length.
+3. Press **Save selected period**.
 
 You can also use **Developer tools → Actions → Menstruation: Record period**, or call:
 
