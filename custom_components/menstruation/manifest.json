@@ -7,5 +7,5 @@
   "integration_type": "device",
   "iot_class": "calculated",
   "issue_tracker": "https://github.com/SdrgonLee/LSR_Menstruation/issues",
-  "version": "0.1.6"
+  "version": "0.1.7"
 }

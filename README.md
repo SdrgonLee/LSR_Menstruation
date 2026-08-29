@@ -34,7 +34,7 @@ For a period happening now:
 1. Press **Start period** on the first day.
 2. Press **End period** when it finishes.
 
-The in-progress state is stored locally and survives Home Assistant restarts. Only the appropriate button is available while a period is or is not in progress.
+The in-progress state is stored locally and survives Home Assistant restarts. The button availability switches immediately: **Start period** is available before a period begins, and **End period** is available while one is in progress.
 
 The current-period buttons appear as device controls. To add or correct a past record, use the historical inputs in the device configuration card:
 

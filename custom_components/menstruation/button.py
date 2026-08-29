@@ -25,35 +25,49 @@ async def async_setup_entry(
     )
 
 
-class StartPeriodButton(MenstruationEntity, ButtonEntity):
+class PeriodStateButton(MenstruationEntity, ButtonEntity):
+    """Button whose availability follows the ongoing period state."""
+
+    _available_when_ongoing: bool
+
+    def __init__(self, runtime: MenstruationRuntime, key: str) -> None:
+        super().__init__(runtime, key)
+        self._sync_availability()
+
+    def _sync_availability(self) -> None:
+        """Update availability and invalidate Home Assistant's cached value."""
+        is_ongoing = self.runtime.ongoing_record is not None
+        self._attr_available = is_ongoing == self._available_when_ongoing
+
+    def _handle_update(self) -> None:
+        """Refresh availability before publishing the new state."""
+        self._sync_availability()
+        super()._handle_update()
+
+
+class StartPeriodButton(PeriodStateButton):
     """Start an ongoing period today."""
 
     _attr_translation_key = "start_period"
     _attr_icon = "mdi:play"
+    _available_when_ongoing = False
 
     def __init__(self, runtime: MenstruationRuntime) -> None:
         super().__init__(runtime, "start_period")
-
-    @property
-    def available(self) -> bool:
-        return self.runtime.ongoing_record is None
 
     async def async_press(self) -> None:
         await self.runtime.async_start_period()
 
 
-class EndPeriodButton(MenstruationEntity, ButtonEntity):
+class EndPeriodButton(PeriodStateButton):
     """End the ongoing period today."""
 
     _attr_translation_key = "end_period"
     _attr_icon = "mdi:stop"
+    _available_when_ongoing = True
 
     def __init__(self, runtime: MenstruationRuntime) -> None:
         super().__init__(runtime, "end_period")
-
-    @property
-    def available(self) -> bool:
-        return self.runtime.ongoing_record is not None
 
     async def async_press(self) -> None:
         await self.runtime.async_end_period()
