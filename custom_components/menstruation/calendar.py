@@ -7,7 +7,7 @@ from typing import Iterable
 
 from homeassistant.components.calendar import CalendarEntity, CalendarEvent
 from homeassistant.config_entries import ConfigEntry
-from homeassistant.core import HomeAssistant
+from homeassistant.core import HomeAssistant, callback
 from homeassistant.helpers.entity_platform import AddEntitiesCallback
 from homeassistant.util import dt as dt_util
 
@@ -107,6 +107,7 @@ class MenstruationCalendar(MenstruationEntity, CalendarEntity):
             key=lambda item: item.start,
         )
 
+    @callback
     def _handle_update(self) -> None:
         super()._handle_update()
         self.async_update_event_listeners()

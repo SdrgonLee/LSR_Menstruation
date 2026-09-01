@@ -3,7 +3,7 @@
 from homeassistant.components.button import ButtonEntity
 from homeassistant.config_entries import ConfigEntry
 from homeassistant.const import EntityCategory
-from homeassistant.core import HomeAssistant
+from homeassistant.core import HomeAssistant, callback
 from homeassistant.helpers.entity_platform import AddEntitiesCallback
 
 from .entity import MenstruationEntity
@@ -39,6 +39,7 @@ class PeriodStateButton(MenstruationEntity, ButtonEntity):
         is_ongoing = self.runtime.ongoing_record is not None
         self._attr_available = is_ongoing == self._available_when_ongoing
 
+    @callback
     def _handle_update(self) -> None:
         """Refresh availability before publishing the new state."""
         self._sync_availability()

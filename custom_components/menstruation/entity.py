@@ -1,5 +1,6 @@
 """Shared entity base class."""
 
+from homeassistant.core import callback
 from homeassistant.helpers.device_registry import DeviceInfo
 from homeassistant.helpers.dispatcher import async_dispatcher_connect
 from homeassistant.helpers.entity import Entity
@@ -29,5 +30,6 @@ class MenstruationEntity(Entity):
             async_dispatcher_connect(self.hass, self.runtime.signal, self._handle_update)
         )
 
+    @callback
     def _handle_update(self) -> None:
         self.async_write_ha_state()
